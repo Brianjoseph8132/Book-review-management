@@ -8,6 +8,7 @@ flask-sqlalchemy = "*"
 flask = "*"
 flask-migrate = "*"
 flask-jwt-extended = "*"
+flask-mail = "*"
 
 [dev-packages]
 

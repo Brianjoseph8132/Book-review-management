@@ -2,6 +2,8 @@ from flask import jsonify, request, Blueprint
 from model import db, User, Review
 from werkzeug.security import generate_password_hash
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_mail import Message 
+from app import mail, app
 
 user_bp = Blueprint("user_bp", __name__)
 
@@ -24,7 +26,18 @@ def add_user():
     new_user = User(username=username, email=email, password=password)
     db.session.add(new_user)
     db.session.commit()
-    return jsonify({"Success":"Added successfully"}), 201
+    try:
+        msg = Message(
+            subject='Hello from the other side!',
+            sender=app.config['MAIL_USERNAME'],  # Explicit sender
+            recipients=[email]
+        )
+        msg.body = "Hey Marion, sending you this email from my Flask app, lmk if it works."
+        mail.send(msg)
+        return "Message sent successfully!"
+    except Exception as e:
+         return jsonify({"Success":"Added successfully"}), 201
+   
 
 
 # update
