@@ -91,12 +91,12 @@ def delete_users(user_id):
 
 
 
-@user_bp.route('/user/books_and_reviews', methods=["GET"])
+@user_bp.route('/users/books_and_reviews', methods=["GET"])
 @jwt_required()  # Ensure the user is authenticated
 def books_and_reviews():
-    user_id = get_jwt_identity()  # Get the user_id from the JWT token
+    current_user = get_jwt_identity()  # Get the user_id from the JWT token
 
-    reviews = Review.query.filter_by(user_id=user_id).all()
+    reviews = Review.query.filter_by(user_id=current_user).all()
 
     if not reviews:
         return jsonify({"message": "No books or reviews found for the user."}), 404

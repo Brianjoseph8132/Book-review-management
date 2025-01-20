@@ -42,7 +42,8 @@ def current_user():
 
     return jsonify(user_data)
 
-# LOGOUT
+
+
 # Logout
 @auth_bp.route("/logout", methods=["DELETE"])
 @jwt_required()
@@ -51,4 +52,4 @@ def logout():
     now = datetime.now(timezone.utc)
     db.session.add(TokenBlocklist(jti=jti, created_at=now))
     db.session.commit()
-    return jsonify({"success ":"Logged out successfully"})
+    return jsonify({"success": "Logged out successfully"})  
